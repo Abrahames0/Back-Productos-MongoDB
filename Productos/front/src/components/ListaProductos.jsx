@@ -59,7 +59,6 @@ function ProductList() {
       handleCloseDialog();
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
-      // Manejar el error en la interfaz de usuario
       handleCloseDialog();
     }
   };  
