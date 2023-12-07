@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useFetch } from "../useFetch";
 
 export function Test() {
   const { data, loading, error } = useFetch(
     "https://jsonplaceholder.typicode.com/users"
   );
+  const [postId, setPostId] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,7 +16,7 @@ export function Test() {
     };
     fetch("https://reqres.in/api/posts", requestOptions)
       .then((response) => response.json())
-      .then((data) => this.setState({ postId: data.id }));
+      .then((data) => setPostId(data.id));
   };
 
   return (
@@ -22,9 +24,10 @@ export function Test() {
       <header className="App-header">
         {error && <li> Error: {error} </li>}
         {loading && <li>Loading...</li>}
-        {data?.map((elemento) => (
-          <li key={elemento.name}>{elemento.name}</li>
+        {data?.map((user) => (
+          <li key={user.id}>{user.name}</li>
         ))}
+        {postId && <p>Post ID: {postId}</p>}
       </header>
     </div>
   );

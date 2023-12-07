@@ -1,16 +1,15 @@
-const mongoUrl = require("mongoose");
+const mongoose = require('mongoose');
 
-mongoUrl
+mongoose
  .connect(process.env.MONGODB_URL, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
  })
  .then(() => {
-   console.log("Conectado a MongoDB");
+   console.log('Conectado a MongoDB');
  })
  .catch((err) => {
    console.log(err);
  });
 
-
- module.exports = mongoUrl;
+module.exports = mongoose;

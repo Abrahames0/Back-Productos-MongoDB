@@ -23,35 +23,24 @@ router.post("/", async function (req, res, next) {
     res.json('Registro Agregado exitosamente');
 });
 
-router.put("/", async function (req, res, next) {
-  const filter = {id: req.query.id}; //Condición de Query
-  const update = {name: req.query.name}; //Campos a modificar
-
-
-  const resultado = await productModel.findOneAndUpdate(filter, update, {
-    new:true,
-    upsert: true
-  });
-
-
-  res.json("Se actualiza el producto");
-  console.log(filter);
-  console.log(update);
-  console.log(resultado);
+router.put("/:id", async function (req, res, next) {
+  try {
+    const resultado = await productModel.findByIdAndUpdate(req.params.id, req.body, {new:true})
+    if(!resultado) return res.statusCode(404)
+    return res.send(resultado) 
+  } catch (err) {
+      console.log(err)
+  }
 });
 
 router.delete("/:id", async function (req, res, next) {
-  //Buscar un producto por ID y regresa una lista
-const resul = await productModel.find({id: req.params.id}).exec();
-
-
-//Si se encontró lo elimina
-if (resul.length > 0) {
-  await productModel.deleteOne({id: req.params.id});
-  res.json("Eliminando producto");
-} else {
-  res.json({error: "No se encontró el producto con Id " + req.params.id})
-}
+ try {
+  const productoEliminado = await productModel.findByIdAndDelete(req.params.id)
+  if(!productoEliminado) return res.statusCode(404)
+  return res.send('producto eliminado')
+ } catch (err) {
+    console.log(err);
+ }
 })
 
 module.exports = router;
