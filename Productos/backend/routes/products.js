@@ -11,7 +11,7 @@ router.get("/", async function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
   const product = new productModel({
-      id: req.body.id, //Extra el Id pasado por el body
+      id: req.body.id,
       description: req.body.description,
       name: req.body.name,
       price: req.body.price,
